@@ -3,7 +3,7 @@ import placeholderimage from '../../assets/404.jpg'
 
 const BlogCard = ({blog}) => {
   const {cover_image, title, published_at, description, id} = blog;
-  console.log(blog);
+  //console.log(blog);
   return (
     <Link
       

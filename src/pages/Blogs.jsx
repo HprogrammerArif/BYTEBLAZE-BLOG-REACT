@@ -1,9 +1,9 @@
 // import { useEffect, useState } from "react";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigation } from "react-router-dom";
 import BlogCard from "../components/BlogCard/BlogCard";
+import SpinnerLoader from "../components/SpinnerLoader/SpinnerLoader";
 
 const Blogs = () => {
-
   // const [blogs, setBlogs] = useState([]);
 
   // useEffect(() => {
@@ -14,7 +14,11 @@ const Blogs = () => {
   // console.log(blogs);
 
   const blogs = useLoaderData();
-  console.log(blogs);
+  //console.log(blogs);
+
+  const navigation = useNavigation();
+  console.log(navigation);
+  if (navigation.state === 'loading') return <SpinnerLoader></SpinnerLoader>
 
   return (
     <section className="dark:bg-gray-100 py-6 dark:bg-gray-100 dark:text-gray-800 dark:text-gray-800">
@@ -34,20 +38,16 @@ const Blogs = () => {
               {blogs[0].title}
             </h3>
             <span className="text-xs dark:text-gray-600 dark:text-gray-600">
-            {new Date (blogs[0].published_at).toLocaleDateString()}
+              {new Date(blogs[0].published_at).toLocaleDateString()}
             </span>
-            <p>
-              {blogs[0].description}
-            </p>
+            <p>{blogs[0].description}</p>
           </div>
         </a>
         <div className="grid justify-center grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {
-            blogs.map((blog)=> <BlogCard blog={blog} key={blog.id}></BlogCard>)
-          }
-          
+          {blogs.slice(1, 19).map((blog) => (
+            <BlogCard blog={blog} key={blog.id}></BlogCard>
+          ))}
         </div>
-        
       </div>
     </section>
   );

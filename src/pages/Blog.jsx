@@ -1,9 +1,15 @@
 import { useState } from "react";
 import { Link, Outlet, useLoaderData } from "react-router-dom";
+import { MdBookmarkAdd } from "react-icons/md";
+import { saveBlogs } from "../utils/LocalStorage";
 
 const Blog = () => {
   const [tabIndex, setTabIndex] = useState(0);
   const blog = useLoaderData();
+
+  const handleBookmark = (blog) => {
+    saveBlogs(blog);
+  }
 
   const {
     comments_count,
@@ -36,9 +42,11 @@ const Blog = () => {
 
           <div className="flex items-center -mx-4 overflow-x-auto overflow-y-hidden sm:justify-start flex-nowrap dark:bg-gray-100 dark:text-gray-800">
             <Link
-            onClick={()=>setTabIndex(0)}
-              to=''
-              className={`flex items-center flex-shrink-0 px-5 py-3 space-x-2 ${tabIndex === 0 ? 'border border-b-0': 'border-b-0'} rounded-t-lg dark:border-gray-600 dark:text-gray-900`}
+              onClick={() => setTabIndex(0)}
+              to=""
+              className={`flex items-center flex-shrink-0 px-5 py-3 space-x-2 ${
+                tabIndex === 0 ? "border border-b-0" : "border-b-0"
+              } rounded-t-lg dark:border-gray-600 dark:text-gray-900`}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -55,9 +63,11 @@ const Blog = () => {
               <span>Content</span>
             </Link>
             <Link
-            onClick={()=> setTabIndex(1)}
-             to={`author`}
-              className={`flex items-center flex-shrink-0 px-5 py-3 space-x-2 ${tabIndex === 1 ? 'border border-b-0': 'border-b-0'} rounded-t-lg dark:border-gray-600 dark:text-gray-900`}
+              onClick={() => setTabIndex(1)}
+              to={`author`}
+              className={`flex items-center flex-shrink-0 px-5 py-3 space-x-2 ${
+                tabIndex === 1 ? "border border-b-0" : "border-b-0"
+              } rounded-t-lg dark:border-gray-600 dark:text-gray-900`}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -74,28 +84,17 @@ const Blog = () => {
               </svg>
               <span>Author</span>
             </Link>
-            
+
+            {/* BOOKMARK BUTTON */}
+            <div onClick={()=> handleBookmark(blog)} className="cursor-pointer bg-primary p-3 ml-5 rounded-full bg-opacity-20 hover:bg-opacity-30 hover:scale-105 overflow-hidden">
+
+            <MdBookmarkAdd size={25} className="text-secondary" />
+            </div>
+                
           </div>
         </div>
-       <Outlet></Outlet>
+        <Outlet></Outlet>
       </article>
-      <div>
-        <div className="flex flex-wrap py-6 gap-2 border-t border-dashed dark:border-gray-600">
-          {
-            tags.map(tag => <a
-            key={tag}
-              rel="noopener noreferrer"
-              href="#"
-              className="px-3 py-1 rounded-sm hover:underline dark:bg-violet-600 dark:text-gray-50"
-            >
-              #{tag}
-            </a>)
-          }
-          
-          
-        </div>
-        
-      </div>
     </div>
   );
 };
